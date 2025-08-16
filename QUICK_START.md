@@ -121,7 +121,7 @@ docker-compose build --no-cache
 nvidia-smi
 
 # Check NVIDIA Container Toolkit
-docker run --rm --gpus all nvidia/cuda:11.8-base-ubuntu22.04 nvidia-smi
+docker run --rm --gpus all nvidia/cuda:12.8-devel-ubuntu22.04 nvidia-smi
 ```
 
 **Port Already in Use**

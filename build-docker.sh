@@ -12,7 +12,7 @@ fi
 
 # Check if NVIDIA Container Toolkit is available (Linux only)
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    if ! docker run --rm --gpus all nvidia/cuda:11.8-base-ubuntu22.04 nvidia-smi > /dev/null 2>&1; then
+    if ! docker run --rm --gpus all nvidia/cuda:12.8-devel-ubuntu22.04 nvidia-smi > /dev/null 2>&1; then
         echo "Warning: NVIDIA Container Toolkit not detected. CUDA acceleration will not be available."
         echo "To enable CUDA support, install NVIDIA Container Toolkit:"
         echo "  https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html"

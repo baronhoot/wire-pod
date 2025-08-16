@@ -75,8 +75,8 @@ You can override these environment variables in the compose.yaml:
 
 ### CUDA Issues
 1. Verify NVIDIA drivers are installed: `nvidia-smi`
-2. Check NVIDIA Container Toolkit: `docker run --rm --gpus all nvidia/cuda:11.8-base-ubuntu22.04 nvidia-smi`
-3. Ensure Docker has access to GPU: `docker run --rm --gpus all nvidia/cuda:11.8-base-ubuntu22.04 nvidia-smi`
+2. Check NVIDIA Container Toolkit: `docker run --rm --gpus all nvidia/cuda:12.8-devel-ubuntu22.04 nvidia-smi`
+3. Ensure Docker has access to GPU: `docker run --rm --gpus all nvidia/cuda:12.8-devel-ubuntu22.04 nvidia-smi`
 
 ### Build Issues
 1. Ensure sufficient disk space (whisper models can be large)
@@ -90,9 +90,9 @@ You can override these environment variables in the compose.yaml:
 
 ## Architecture
 
-- **Base Image**: NVIDIA CUDA 11.8 development image
+- **Base Image**: NVIDIA CUDA 12.1 development image
 - **STT Engine**: whisper.cpp with Go bindings
-- **GPU Support**: CUDA 11.8 compatible
+- **GPU Support**: CUDA 12.1 compatible
 - **OS**: Ubuntu 22.04 LTS
 
 ## Security Notes
