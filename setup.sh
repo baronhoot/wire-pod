@@ -274,7 +274,7 @@ function getSTT() {
             cmake -B build_go \
                 -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
                 -DGGML_CUDA=ON \
-                -DCMAKE_CUDA_ARCHITECTURES="all-major;70-virtual"
+                -DCMAKE_CUDA_ARCHITECTURES="70;75;80;86;89;90;70-virtual"
         else
             echo "CUDA not detected, building CPU-only version"
             cmake -B build_go \
