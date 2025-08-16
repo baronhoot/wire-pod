@@ -1,8 +1,12 @@
 services:
   wire-pod:
     hostname: escapepod
-    image: ghcr.io/kercre123/wire-pod:main
+    build: .
     restart: unless-stopped
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
     ports:
       - 443:443
       - 8080:8080
@@ -10,9 +14,9 @@ services:
       - 8084:8084
     volumes:
       - wire-pod-data:/chipper/
-      - wire-pod-model:/vosk/
+      - wire-pod-whisper:/whisper.cpp/
 volumes:
   wire-pod-data:
     driver: local
-  wire-pod-model:
+  wire-pod-whisper:
     driver: local
