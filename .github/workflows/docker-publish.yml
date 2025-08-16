@@ -87,7 +87,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           build-args: |
             WHISPER_MODEL=${{ env.WHISPER_MODEL }}
           # Add build context for better caching
@@ -126,5 +126,5 @@ jobs:
             echo "🔍 **PR Build - Image not published**" >> $GITHUB_STEP_SUMMARY
           fi
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Platforms:** linux/amd64, linux/arm64" >> $GITHUB_STEP_SUMMARY
-          echo "**Features:** OpenAI Whisper STT, CUDA support, Multi-platform" >> $GITHUB_STEP_SUMMARY
+          echo "**Platforms:** linux/amd64" >> $GITHUB_STEP_SUMMARY
+          echo "**Features:** OpenAI Whisper STT, CUDA support, AMD64 optimized" >> $GITHUB_STEP_SUMMARY

@@ -115,10 +115,10 @@ To pass additional build arguments, modify the build step:
 The workflows build for multiple platforms by default:
 
 ```yaml
-platforms: linux/amd64,linux/arm64
+platforms: linux/amd64
 ```
 
-You can modify this to support additional architectures or remove unsupported ones.
+This is optimized for AMD64 systems. If you need ARM64 support, you can modify the workflow to add `linux/arm64` to the platforms list.
 
 ## Security Features
 

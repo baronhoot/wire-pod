@@ -44,7 +44,7 @@ docker-compose logs -f wire-pod
 - **GitHub Actions** automatically build and publish images
 - **Daily builds** at 22:25 UTC
 - **Release tags** (v1.0.0) trigger new images
-- **Multi-platform** (linux/amd64, linux/arm64)
+- **AMD64 optimized** (linux/amd64 only)
 
 ### Pull Pre-built Images
 ```bash
@@ -68,8 +68,8 @@ docker pull ghcr.io/YOUR_USERNAME/wire-pod:v1.0.0
 - Support for larger Whisper models
 
 ### **Edge Devices**
-- ARM64 support (Raspberry Pi, ARM servers)
-- Optimized for resource-constrained environments
+- AMD64 support (x86_64 servers, desktops)
+- Optimized for performance and compatibility
 
 ## 📊 Performance Comparison
 
