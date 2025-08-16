@@ -39,14 +39,14 @@ RUN chmod +x /setup.sh && dos2unix /setup.sh
 # Set environment variable to use whisper instead of vosk
 ENV STT=whisper
 
+# Set default whisper model
+ENV WHISPER_MODEL=tiny
+
 # Run setup with whisper STT service
 RUN ["/bin/sh", "-c", "STT=whisper ./setup.sh"]
 
 # Set permissions for start script
 RUN chmod +x /chipper/start.sh && dos2unix /chipper/start.sh
-
-# Set default whisper model
-ENV WHISPER_MODEL=tiny
 
 # Expose necessary ports
 EXPOSE 8080 8081 8082
