@@ -274,11 +274,23 @@ function getSTT() {
             cmake -B build_go \
                 -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
                 -DGGML_CUDA=ON \
-                -DCMAKE_CUDA_ARCHITECTURES="75"
+                -DCMAKE_CUDA_ARCHITECTURES="75" \
+                -DBUILD_TESTING=OFF \
+                -DWHISPER_BUILD_TESTS=OFF \
+                -DWHISPER_BUILD_EXAMPLES=OFF \
+                -DGGML_BUILD_TESTS=OFF \
+                -DGGML_BUILD_EXAMPLES=OFF \
+                -DGGML_BUILD_BENCHMARKS=OFF
         else
             echo "CUDA not detected, building CPU-only version"
             cmake -B build_go \
-                -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+                -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+                -DBUILD_TESTING=OFF \
+                -DWHISPER_BUILD_TESTS=OFF \
+                -DWHISPER_BUILD_EXAMPLES=OFF \
+                -DGGML_BUILD_TESTS=OFF \
+                -DGGML_BUILD_EXAMPLES=OFF \
+                -DGGML_BUILD_BENCHMARKS=OFF
         fi
         
         cmake --build build_go --config Release
