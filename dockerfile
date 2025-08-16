@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.8-devel-ubuntu22.04
+FROM nvidia/cuda:12.9.1-devel-ubuntu22.04
 
 # Set environment variables for CUDA
 ENV CUDA_HOME=/usr/local/cuda
