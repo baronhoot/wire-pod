@@ -170,6 +170,9 @@ function getSTT() {
     if [[ "$STT" == "vosk" ]]; then
         echo "Vosk config"
         sttService="vosk"
+    elif [[ "$STT" == "whisper" ]]; then
+        echo "Whisper config"
+        sttService="whisper"
     else
         sttServicePrompt
     fi
@@ -236,31 +239,61 @@ function getSTT() {
         else
             cd whisper.cpp
         fi
-        function whichWhisperModel() {
-            availableModels="tiny, base, small, medium, large-v3, large-v3-q5_0"
-            echo
-            echo "Which Whisper model would you like to use?"
-            echo "Options: $availableModels"
-            echo '(tiny is recommended)'
-            echo
-            read -p "Enter preferred model: " whispermodel
-            if [[ ! -n ${whispermodel} ]]; then
+        # Auto-select tiny model for Docker builds
+        if [[ -n "$WHISPER_MODEL" ]]; then
+            whispermodel="$WHISPER_MODEL"
+            echo "Using Whisper model: $whispermodel"
+        else
+            function whichWhisperModel() {
+                availableModels="tiny, base, small, medium, large-v3, large-v3-q5_0"
                 echo
-                echo "You must enter a key."
-                whichWhisperModel
-            fi
-            if [[ ! ${availableModels} == *"${whispermodel}"* ]]; then
+                echo "Which Whisper model would you like to use?"
+                echo "Options: $availableModels"
+                echo '(tiny is recommended)'
                 echo
-                echo "Invalid model."
-                whichWhisperModel
-            fi
-        }
-        whichWhisperModel
+                read -p "Enter preferred model: " whispermodel
+                if [[ ! -n ${whispermodel} ]]; then
+                    echo
+                    echo "You must enter a key."
+                    whichWhisperModel
+                fi
+                if [[ ! ${availableModels} == *"${whispermodel}"* ]]; then
+                    echo
+                    echo "Invalid model."
+                    whichWhisperModel
+                fi
+            }
+            whichWhisperModel
+        fi
         ./models/download-ggml-model.sh $whispermodel
         rm -rf build_go
-	cmake -B build_go \
-	-DCMAKE_POSITION_INDEPENDENT_CODE=ON
-	cmake --build build_go --config Release
+        
+        # Enable CUDA support if available
+        if command -v nvcc &> /dev/null; then
+            echo "CUDA detected, building with GPU acceleration"
+            cmake -B build_go \
+                -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+                -DGGML_CUDA=ON \
+                -DCMAKE_CUDA_ARCHITECTURES="75" \
+                -DBUILD_TESTING=OFF \
+                -DWHISPER_BUILD_TESTS=OFF \
+                -DWHISPER_BUILD_EXAMPLES=OFF \
+                -DGGML_BUILD_TESTS=OFF \
+                -DGGML_BUILD_EXAMPLES=OFF \
+                -DGGML_BUILD_BENCHMARKS=OFF
+        else
+            echo "CUDA not detected, building CPU-only version"
+            cmake -B build_go \
+                -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+                -DBUILD_TESTING=OFF \
+                -DWHISPER_BUILD_TESTS=OFF \
+                -DWHISPER_BUILD_EXAMPLES=OFF \
+                -DGGML_BUILD_TESTS=OFF \
+                -DGGML_BUILD_EXAMPLES=OFF \
+                -DGGML_BUILD_BENCHMARKS=OFF
+        fi
+        
+        cmake --build build_go --config Release
         cd ${origDir}
         echo "export WHISPER_MODEL=$whispermodel" >> ./chipper/source.sh
     else
